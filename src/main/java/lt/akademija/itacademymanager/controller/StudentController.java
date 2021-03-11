@@ -18,4 +18,9 @@ public class StudentController {
     public Student addStudent(@RequestBody @Valid StudentNewRequest request) {
         return studentService.addStudent(request.toStudent());
     }
+
+    @PutMapping(path = "/{id}")
+    public Student updatePerson(@RequestBody @Valid StudentNewRequest request, @PathVariable("id") Integer id) {
+        return studentService.updateStudent(request.toStudent(), id);
+    }
 }
