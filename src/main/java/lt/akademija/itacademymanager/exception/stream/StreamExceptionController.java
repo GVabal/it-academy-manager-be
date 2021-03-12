@@ -5,19 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@ControllerAdvice
 public class StreamExceptionController {
 
-    @ControllerAdvice
-    public class PersonExceptionController {
+    @ExceptionHandler(value = StreamNotFoundException.class)
+    public ResponseEntity<Object> exception(StreamNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
-        @ExceptionHandler(value = StreamNotFoundException.class)
-        public ResponseEntity<Object> exception(StreamNotFoundException exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        }
-
-        @ExceptionHandler(value = StreamAlreadyExistsException.class)
-        public ResponseEntity<Object> exception(StreamAlreadyExistsException exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @ExceptionHandler(value = StreamAlreadyExistsException.class)
+    public ResponseEntity<Object> exception(StreamAlreadyExistsException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

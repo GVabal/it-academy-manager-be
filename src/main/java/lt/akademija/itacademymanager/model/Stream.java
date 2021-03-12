@@ -1,15 +1,11 @@
 package lt.akademija.itacademymanager.model;
 
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
-
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
@@ -18,12 +14,13 @@ public class Stream {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
-    private Integer Id;
+    private Integer id;
 
-    @Size(min=2, max=30)
     private String name;
 
+    public Stream(String name) {
+        this.name = name;
+    }
 
 }
 

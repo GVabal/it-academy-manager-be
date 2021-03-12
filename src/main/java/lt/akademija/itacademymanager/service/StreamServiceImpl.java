@@ -32,10 +32,10 @@ public class StreamServiceImpl implements StreamService {
 
     @Override
     public void deleteStream(Stream stream) throws StreamNotFoundException {
-        if (!streamRepository.existsById(stream.getId())) {
+        if (streamRepository.getStreamByName(stream.getName()) == null) {
             throw new StreamNotFoundException(stream.getName());
         }
-        streamRepository.deleteById(stream.getId());
+        streamRepository.deleteByName(stream.getName());
 
     }
 }

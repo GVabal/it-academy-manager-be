@@ -1,14 +1,14 @@
 package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
-import lt.akademija.itacademymanager.exception.stream.StreamAlreadyExistsException;
-import lt.akademija.itacademymanager.exception.stream.StreamNotFoundException;
 import lt.akademija.itacademymanager.model.Stream;
+import lt.akademija.itacademymanager.payload.StreamNewRequest;
 import lt.akademija.itacademymanager.service.StreamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -25,14 +25,14 @@ public class StreamController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addStream(@RequestBody Stream stream) throws StreamAlreadyExistsException {
-        streamService.addStream(stream);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Stream> addStream(@RequestBody @Valid StreamNewRequest request) {
+        streamService.addStream(request.toStream());
+        return new ResponseEntity<>(request.toStream(), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteStream(@RequestBody Stream stream) throws StreamNotFoundException {
-        streamService.deleteStream(stream);
+    public ResponseEntity<Void> deleteStream(@RequestBody @Valid StreamNewRequest request) {
+        streamService.deleteStream(request.toStream());
         return ResponseEntity.ok().build();
     }
 }
