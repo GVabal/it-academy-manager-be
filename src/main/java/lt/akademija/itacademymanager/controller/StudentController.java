@@ -2,21 +2,25 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.model.Student;
-import lt.akademija.itacademymanager.repository.StudentRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lt.akademija.itacademymanager.payload.StudentNewRequest;
+import lt.akademija.itacademymanager.service.StudentService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/students")
 public class StudentController {
-    private final StudentRepository studentRepository;
+    private final StudentService studentService;
 
-    @GetMapping
-    public List<Student> hello() {
-        return studentRepository.findAll();
+    @PostMapping
+    public Student addStudent(@RequestBody @Valid StudentNewRequest request) {
+        return studentService.addStudent(request.toStudent());
+    }
+
+    @PutMapping(path = "/{id}")
+    public Student updatePerson(@RequestBody @Valid StudentNewRequest request, @PathVariable("id") Integer id) {
+        return studentService.updateStudent(request.toStudent(), id);
     }
 }
