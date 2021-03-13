@@ -29,7 +29,12 @@ public class StudentService {
     public List<Student> getAllStudents(){return studentRepository.findAll();}
 
     public Student getStudentById(int id){
-        return (Student) this.studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with id " + id + " does not exist"));
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student with id " + id + " does not exist"));
     }
 
+    public void deleteStudentById(int id) {
+        Student student = getStudentById(id);
+        studentRepository.delete(student);
+    }
 }
