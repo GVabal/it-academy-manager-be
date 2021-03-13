@@ -23,19 +23,19 @@ public class StreamServiceImpl implements StreamService {
     }
 
     @Override
-    public void addStream(Stream stream) throws StreamAlreadyExistsException {
+    public Stream addStream(Stream stream) throws StreamAlreadyExistsException {
         if (streamRepository.getStreamByName(stream.getName()) != null) {
             throw new StreamAlreadyExistsException(stream.getName());
         }
-        streamRepository.save(stream);
+        return streamRepository.save(stream);
     }
 
     @Override
-    public void deleteStream(Stream stream) throws StreamNotFoundException {
-        if (streamRepository.getStreamByName(stream.getName()) == null) {
-            throw new StreamNotFoundException(stream.getName());
+    public void deleteStream(int id) throws StreamNotFoundException {
+        if (!streamRepository.existsById(id)) {
+            throw new StreamNotFoundException(id);
         }
-        streamRepository.deleteByName(stream.getName());
+        streamRepository.deleteById(id);
 
     }
 }

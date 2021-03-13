@@ -7,7 +7,7 @@ import java.util.List;
 public interface StreamService {
     List<Stream> getAllStreams();
 
-    void addStream(Stream stream);
+    Stream addStream(Stream stream);
 
-    void deleteStream(Stream stream);
+    void deleteStream(int id);
 }

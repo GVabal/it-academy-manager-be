@@ -1,7 +1,7 @@
 package lt.akademija.itacademymanager.exception.stream;
 
 public class StreamNotFoundException extends RuntimeException {
-    public StreamNotFoundException(String name) {
-        super("Stream " + name + " doesn't exist");
+    public StreamNotFoundException(int id) {
+        super("Stream with id: " + id + " doesn't exist");
     }
 }

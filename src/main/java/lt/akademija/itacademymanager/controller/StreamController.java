@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("api/streams")
 public class StreamController {
 
-
     private final StreamService streamService;
 
     @GetMapping
@@ -26,13 +25,12 @@ public class StreamController {
 
     @PostMapping
     public ResponseEntity<Stream> addStream(@RequestBody @Valid StreamNewRequest request) {
-        streamService.addStream(request.toStream());
-        return new ResponseEntity<>(request.toStream(), HttpStatus.OK);
+        return new ResponseEntity<>(streamService.addStream(request.toStream()), HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteStream(@RequestBody @Valid StreamNewRequest request) {
-        streamService.deleteStream(request.toStream());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStream(@PathVariable("id") int id) {
+        streamService.deleteStream(id);
         return ResponseEntity.ok().build();
     }
 }
