@@ -1,6 +1,8 @@
 package lt.akademija.itacademymanager.controller;
 
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
+import lt.akademija.itacademymanager.exception.stream.StreamAlreadyExistsException;
+import lt.akademija.itacademymanager.exception.stream.StreamNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,6 +19,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StudentNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleStudentNotFoundException(StudentNotFoundException exception) {
         return generateResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = StreamNotFoundException.class)
+    public ResponseEntity<Map<String, String>> exception(StreamNotFoundException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = StreamAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> exception(StreamAlreadyExistsException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
