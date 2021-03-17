@@ -1,0 +1,4 @@
+CREATE TABLE profile_picture (
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    bytes OID NOT NULL
+);

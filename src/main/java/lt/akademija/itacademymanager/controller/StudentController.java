@@ -5,7 +5,9 @@ import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.StudentNewRequest;
 import lt.akademija.itacademymanager.service.StudentService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -16,9 +18,12 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @PostMapping
-    public Student addStudent(@RequestBody @Valid StudentNewRequest request) {
-        return studentService.addStudent(request.toStudent());
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public Student addStudent(@RequestPart @Valid StudentNewRequest request, @RequestPart byte[] picture) {
+        // čia patikrinti ar picture existuoja?
+        return studentService.addStudent(request, picture);
     }
 
     @PutMapping(path = "/{id}")

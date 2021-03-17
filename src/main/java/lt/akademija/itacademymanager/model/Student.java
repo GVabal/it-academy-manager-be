@@ -19,10 +19,9 @@ public class Student {
     private String occupation;
     private String direction;
 
-    public Student(String firstName, String lastName, String pictureUrl, String occupation, String direction) {
+    public Student(String firstName, String lastName, String occupation, String direction) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.pictureUrl = pictureUrl;
         this.occupation = occupation;
         this.direction = direction;
     }

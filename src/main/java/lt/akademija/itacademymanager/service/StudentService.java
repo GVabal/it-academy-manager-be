@@ -2,10 +2,14 @@ package lt.akademija.itacademymanager.service;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
+import lt.akademija.itacademymanager.model.ProfilePicture;
 import lt.akademija.itacademymanager.model.Student;
+import lt.akademija.itacademymanager.payload.StudentNewRequest;
 import lt.akademija.itacademymanager.repository.StudentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -13,10 +17,19 @@ import java.util.List;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final ProfilePictureService profilePictureService;
 
-    public Student addStudent(Student student) {
-        return studentRepository.save(student);
+    // transactional?
+    public Student addStudent(StudentNewRequest student, byte[] picture) {
+        ProfilePicture profilePicture = null;
+        try {
+            profilePicture = profilePictureService.storePicture(picture);
+        } catch (IOException e) {}
 
+        Student s = student.toStudent();
+
+        s.setPictureUrl("http://localhost:8080/api/profile-pictures/" + profilePicture.getId());
+        return studentRepository.save(s);
     }
 
     public Student updateStudent(Student newStudent, Integer id){
