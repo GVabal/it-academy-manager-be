@@ -19,11 +19,11 @@ public class Review {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "streamId")
+    @JoinColumn(name = "stream_id")
     private Stream stream;
 
     private int overallGrade;

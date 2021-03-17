@@ -10,6 +10,8 @@ extraMileGrade integer NOT NULL,
 extraMileComment VARCHAR(255),
 communicationGrade integer NOT NULL,
 communicationComment VARCHAR(255),
-CONSTRAINT studentId FOREIGN KEY(id) REFERENCES student(id),
-CONSTRAINT streamId FOREIGN KEY(id) REFERENCES stream(id)
-)
+student_id integer,
+stream_id integer,
+CONSTRAINT fk_student_id FOREIGN KEY(student_id) REFERENCES student(id),
+CONSTRAINT fk_stream_id FOREIGN KEY(stream_id) REFERENCES stream(id)
+);
