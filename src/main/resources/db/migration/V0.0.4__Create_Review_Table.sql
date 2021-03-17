@@ -11,5 +11,5 @@ extraMileComment VARCHAR(255),
 communicationGrade integer NOT NULL,
 communicationComment VARCHAR(255),
 CONSTRAINT studentId FOREIGN KEY(id) REFERENCES student(id),
-CONSTRAINT streamId FOREIGN KEY(id) REFERENCES stream(id),
+CONSTRAINT streamId FOREIGN KEY(id) REFERENCES stream(id)
 )
