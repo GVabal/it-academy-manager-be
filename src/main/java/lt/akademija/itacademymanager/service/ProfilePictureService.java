@@ -14,7 +14,7 @@ import java.io.IOException;
 @AllArgsConstructor
 @Service
 public class ProfilePictureService {
-    private static final long MAX_FILE_SIZE_BYTES = 500000;
+    private static final long MAX_PROFILE_PICTURE_SIZE_BYTES = 500000;
 
     private final ProfilePictureRepository profilePictureRepository;
 
@@ -23,17 +23,25 @@ public class ProfilePictureService {
                 .orElseThrow(() -> new ProfilePictureNotFoundException("No picture with id " + id));
     }
 
-    public ProfilePicture storePicture(byte[] picture) throws IOException {
-//        validateProfilePictureFile(picture);
-        ProfilePicture profilePicture = new ProfilePicture(picture);
+    public ProfilePicture storePicture(MultipartFile picture) throws IOException {
+        validateProfilePictureFile(picture);
+        ProfilePicture profilePicture = new ProfilePicture(picture.getBytes());
         return profilePictureRepository.save(profilePicture);
+    }
+
+    public boolean existsById(int id) {
+        return profilePictureRepository.existsById(id);
+    }
+
+    public void deletePicture(int id) {
+        profilePictureRepository.deleteById(id);
     }
 
     protected void validateProfilePictureFile(MultipartFile file) {
         if (file.isEmpty() || !file.getContentType().contains("image/")) {
             throw new ProfilePictureInvalidException();
         }
-        if (file.getSize() > MAX_FILE_SIZE_BYTES) {
+        if (file.getSize() > MAX_PROFILE_PICTURE_SIZE_BYTES) {
             throw new ProfilePictureFileSizeTooLargeException();
         }
     }

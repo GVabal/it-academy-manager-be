@@ -1,8 +1,6 @@
 package lt.akademija.itacademymanager.payload;
 
 import lombok.Data;
-import lt.akademija.itacademymanager.model.Student;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -24,8 +22,4 @@ public class StudentNewRequest {
     @NotBlank(message = "Direction must not be blank.")
     @Size(max = 50, message = "Direction is too long.")
     private final String direction;
-
-    public Student toStudent() {
-        return new Student(firstName, lastName, occupation, direction);
-    }
 }

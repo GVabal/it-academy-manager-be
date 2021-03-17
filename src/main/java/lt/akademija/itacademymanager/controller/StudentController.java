@@ -18,17 +18,20 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public Student addStudent(@RequestPart @Valid StudentNewRequest request, @RequestPart byte[] picture) {
-        // čia patikrinti ar picture existuoja?
-        return studentService.addStudent(request, picture);
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Student addStudent(@RequestPart @Valid StudentNewRequest request,
+                              @RequestPart(required = false) MultipartFile picture) {
+        if (picture == null) {
+            return studentService.addStudent(request);
+        }
+        return studentService.addStudentWithPicture(request, picture);
     }
 
     @PutMapping(path = "/{id}")
     public Student updatePerson(@RequestBody @Valid StudentNewRequest request, @PathVariable("id") Integer id) {
-        return studentService.updateStudent(request.toStudent(), id);
+        // picture logic here as well
+        return studentService.updateStudent(request, id);
     }
 
     @GetMapping

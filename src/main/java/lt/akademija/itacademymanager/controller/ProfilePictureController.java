@@ -6,9 +6,6 @@ import lt.akademija.itacademymanager.service.ProfilePictureService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 
 @AllArgsConstructor
@@ -22,10 +19,4 @@ public class ProfilePictureController {
         ProfilePicture profilePicture = profilePictureService.getPictureById(id);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(profilePicture.getBytes());
     }
-
-//    @PostMapping
-//    public ResponseEntity<byte[]> addPicture(@RequestParam  picture) throws IOException {
-//        ProfilePicture profilePicture = profilePictureService.storePicture(picture);
-//        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(profilePicture.getBytes());
-//    }
 }
