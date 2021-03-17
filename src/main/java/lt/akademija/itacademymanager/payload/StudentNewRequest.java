@@ -23,11 +23,9 @@ public class StudentNewRequest {
     @Size(max = 255, message = "Picture URL is too long.")
     private final String pictureUrl;
 
-    @NotBlank(message = "Occupation must not be blank.")
     @Size(max = 50, message = "Occupation is too long.")
     private final String occupation;
 
-    @NotBlank(message = "Direction must not be blank.")
     @Size(max = 50, message = "Direction is too long.")
     private final String direction;
 
