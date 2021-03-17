@@ -1,6 +1,5 @@
 package lt.akademija.itacademymanager.payload;
 
-
 import lombok.Data;
 import lt.akademija.itacademymanager.model.Review;
 
