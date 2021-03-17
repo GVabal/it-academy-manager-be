@@ -1,0 +1,15 @@
+CREATE TABLE review (
+id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+studentId integer,
+lecturerId integer,
+overallGrade integer,
+overallComment VARCHAR(255),
+abilityToLearnGrade integer,
+abilityToLearnComment VARCHAR(255),
+motivationGrade integer,
+motivationComment VARCHAR(255),
+extraMileGrade integer,
+extraMileComment VARCHAR(255),
+communicationGrade integer,
+communicationComment VARCHAR(255),
+)
