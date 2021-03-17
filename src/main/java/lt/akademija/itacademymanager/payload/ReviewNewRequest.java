@@ -1,5 +1,6 @@
 package lt.akademija.itacademymanager.payload;
 
+
 import lombok.Data;
 import lt.akademija.itacademymanager.model.Review;
 
@@ -50,10 +51,17 @@ public class ReviewNewRequest {
     private String communicationComment;
 
     public Review toReview() {
-        return new Review(overallGrade, overallComment,
-                abilityToLearnGrade, abilityToLearnComment,
-                motivationGrade, motivationComment,
-                extraMileGrade, extraMileComment,
-                communicationGrade, communicationComment);
+        return new Review.Builder()
+                .withOverallGrade(overallGrade)
+                .withOverallComment(overallComment)
+                .withAbilityToLearnGrade(abilityToLearnGrade)
+                .withAbilityToLearnComment(abilityToLearnComment)
+                .withMotivationGrade(motivationGrade)
+                .withMotivationComment(motivationComment)
+                .withExtraMileGrade(extraMileGrade)
+                .withExtraMileComment(extraMileComment)
+                .withCommunicationGrade(communicationGrade)
+                .withCommunicationComment(communicationComment)
+                .build();
     }
 }
