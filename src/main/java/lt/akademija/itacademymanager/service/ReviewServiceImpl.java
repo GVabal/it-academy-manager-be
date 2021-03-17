@@ -12,7 +12,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public Review addReview(Review toReview) {
-        return reviewRepository.save(toReview);
+    public Review addReview(Review review) {
+        return reviewRepository.save(review);
     }
 }
