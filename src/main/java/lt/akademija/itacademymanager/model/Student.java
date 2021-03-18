@@ -32,4 +32,8 @@ public class Student {
         this.occupation = occupation;
         this.direction = direction;
     }
+
+    public int extractPictureId() {
+        return pictureUrl != null ? Integer.parseInt(pictureUrl.replaceFirst(".*/", "")) : 0;
+    }
 }
