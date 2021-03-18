@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.model.ProfilePicture;
 import lt.akademija.itacademymanager.model.Student;
-import lt.akademija.itacademymanager.payload.StudentNewRequest;
+import lt.akademija.itacademymanager.payload.request.StudentNewRequest;
 import lt.akademija.itacademymanager.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

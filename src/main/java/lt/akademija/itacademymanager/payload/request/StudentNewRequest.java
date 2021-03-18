@@ -15,11 +15,6 @@ public class StudentNewRequest {
     @Size(max = 25, message = "Last name is too long.")
     private final String lastName;
 
-    @URL(message = "Picture URL is invalid.")
-    @Pattern(regexp = "(^.+(\\.(?i)(jpg|png|gif|bmp))$)", message = "URL is not for a picture.")
-    @Size(max = 255, message = "Picture URL is too long.")
-    private final String pictureUrl;
-
     @Size(max = 50, message = "Occupation is too long.")
     private final String occupation;
 
