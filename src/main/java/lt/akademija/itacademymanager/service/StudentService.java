@@ -19,9 +19,6 @@ public class StudentService {
     @Value("${environment.address}")
     private String address;
 
-    @Value("${environment.port}")
-    private int port;
-
     private final StudentRepository studentRepository;
     private final ProfilePictureService profilePictureService;
 
@@ -103,6 +100,6 @@ public class StudentService {
     }
 
     private String generatePictureUrl(int id) {
-        return address + port + "/api/profile-pictures/" + id;
+        return address + "/api/profile-pictures/" + id;
     }
 }
