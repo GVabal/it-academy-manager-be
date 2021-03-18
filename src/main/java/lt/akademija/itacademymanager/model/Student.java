@@ -1,9 +1,11 @@
 package lt.akademija.itacademymanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +20,10 @@ public class Student {
     private String pictureUrl;
     private String occupation;
     private String direction;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Review> reviews;
 
     public Student(String firstName, String lastName, String pictureUrl, String occupation, String direction) {
         this.firstName = firstName;
