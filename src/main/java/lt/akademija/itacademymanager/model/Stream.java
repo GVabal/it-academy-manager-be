@@ -1,6 +1,5 @@
 package lt.akademija.itacademymanager.model;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +20,6 @@ public class Stream {
     public Stream(String name) {
         this.name = name;
     }
-
 }
 
 

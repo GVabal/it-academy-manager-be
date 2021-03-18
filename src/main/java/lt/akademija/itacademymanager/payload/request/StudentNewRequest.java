@@ -1,4 +1,4 @@
-package lt.akademija.itacademymanager.payload;
+package lt.akademija.itacademymanager.payload.request;
 
 import lombok.Data;
 
@@ -15,11 +15,14 @@ public class StudentNewRequest {
     @Size(max = 25, message = "Last name is too long.")
     private final String lastName;
 
-    @NotBlank(message = "Occupation must not be blank.")
+    @URL(message = "Picture URL is invalid.")
+    @Pattern(regexp = "(^.+(\\.(?i)(jpg|png|gif|bmp))$)", message = "URL is not for a picture.")
+    @Size(max = 255, message = "Picture URL is too long.")
+    private final String pictureUrl;
+
     @Size(max = 50, message = "Occupation is too long.")
     private final String occupation;
 
-    @NotBlank(message = "Direction must not be blank.")
     @Size(max = 50, message = "Direction is too long.")
     private final String direction;
 }

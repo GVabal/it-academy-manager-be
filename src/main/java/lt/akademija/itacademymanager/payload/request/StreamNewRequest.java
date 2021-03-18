@@ -1,11 +1,11 @@
-package lt.akademija.itacademymanager.payload;
+package lt.akademija.itacademymanager.payload.request;
 
-import lombok.Data;
+import lombok.Getter;
 import lt.akademija.itacademymanager.model.Stream;
 
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
 public class StreamNewRequest {
 
 

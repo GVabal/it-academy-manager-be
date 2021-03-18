@@ -1,13 +1,41 @@
 package lt.akademija.itacademymanager.service;
 
+
+import lombok.AllArgsConstructor;
+import lt.akademija.itacademymanager.exception.stream.StreamAlreadyExistsException;
+import lt.akademija.itacademymanager.exception.stream.StreamNotFoundException;
 import lt.akademija.itacademymanager.model.Stream;
+import lt.akademija.itacademymanager.repository.StreamRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface StreamService {
-    List<Stream> getAllStreams();
+@AllArgsConstructor
+@Service
+public class StreamService {
 
-    Stream addStream(Stream stream);
+    StreamRepository streamRepository;
 
-    void deleteStream(int id);
+    public List<Stream> getAllStreams() {
+        return streamRepository.findAll();
+    }
+
+    public Stream addStream(Stream stream) throws StreamAlreadyExistsException {
+        if (streamRepository.getStreamByName(stream.getName()) != null) {
+            throw new StreamAlreadyExistsException(stream.getName());
+        }
+        return streamRepository.save(stream);
+    }
+
+    public void deleteStream(int id) throws StreamNotFoundException {
+        if (!streamRepository.existsById(id)) {
+            throw new StreamNotFoundException(id);
+        }
+        streamRepository.deleteById(id);
+    }
+
+    public Stream getStreamById(int id) {
+        return streamRepository.findById(id).orElseThrow(() -> new StreamNotFoundException(id));
+    }
+
 }
