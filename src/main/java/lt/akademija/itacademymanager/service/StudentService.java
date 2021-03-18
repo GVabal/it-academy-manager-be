@@ -1,21 +1,26 @@
 package lt.akademija.itacademymanager.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.model.ProfilePicture;
 import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.StudentNewRequest;
 import lt.akademija.itacademymanager.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class StudentService {
-    private static final String API_URL = "/api/profile-pictures/";
+    @Value("${environment.address}")
+    private String address;
+
+    @Value("${environment.port}")
+    private int port;
 
     private final StudentRepository studentRepository;
     private final ProfilePictureService profilePictureService;
@@ -37,7 +42,7 @@ public class StudentService {
         Student student = new Student(
                 request.getFirstName(),
                 request.getLastName(),
-                API_URL + profilePicture.getId(),
+                generatePictureUrl(profilePicture.getId()),
                 request.getOccupation(),
                 request.getDirection()
         );
@@ -71,7 +76,7 @@ public class StudentService {
         Student updatedStudent = new Student(
                 request.getFirstName(),
                 request.getLastName(),
-                API_URL + newProfilePicture.getId(),
+                generatePictureUrl(newProfilePicture.getId()),
                 request.getOccupation(),
                 request.getDirection()
         );
@@ -95,5 +100,9 @@ public class StudentService {
             profilePictureService.deletePicture(student.extractPictureId());
         }
         studentRepository.delete(student);
+    }
+
+    private String generatePictureUrl(int id) {
+        return address + ":" + port + "/api/profile-pictures/" + id;
     }
 }
