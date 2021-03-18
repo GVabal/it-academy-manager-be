@@ -1,12 +1,12 @@
 package lt.akademija.itacademymanager.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
-@Getter
+@Data
 @Entity
 @Table(name = "stream")
 public class Stream {

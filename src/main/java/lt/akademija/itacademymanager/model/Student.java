@@ -1,13 +1,13 @@
 package lt.akademija.itacademymanager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Getter
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "student")

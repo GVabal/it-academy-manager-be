@@ -1,13 +1,13 @@
 package lt.akademija.itacademymanager.model;
 
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "review")
 public class Review {
