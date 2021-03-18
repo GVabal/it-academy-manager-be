@@ -1,10 +1,10 @@
 package lt.akademija.itacademymanager.payload.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lt.akademija.itacademymanager.model.Review;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class ReviewResponse {
 

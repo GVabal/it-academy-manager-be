@@ -1,10 +1,10 @@
 package lt.akademija.itacademymanager.payload.request;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.*;
 
-@Data
+@Getter
 public class ReviewNewRequest {
 
     @NotNull(message = "Grades are mandatory.")
