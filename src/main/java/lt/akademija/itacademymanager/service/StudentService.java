@@ -103,6 +103,6 @@ public class StudentService {
     }
 
     private String generatePictureUrl(int id) {
-        return address + ":" + port + "/api/profile-pictures/" + id;
+        return address + port + "/api/profile-pictures/" + id;
     }
 }
