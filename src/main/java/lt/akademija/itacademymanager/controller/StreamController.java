@@ -2,7 +2,7 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.model.Stream;
-import lt.akademija.itacademymanager.payload.StreamNewRequest;
+import lt.akademija.itacademymanager.payload.request.StreamNewRequest;
 import lt.akademija.itacademymanager.service.StreamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

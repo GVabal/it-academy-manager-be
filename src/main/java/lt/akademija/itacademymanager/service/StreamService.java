@@ -33,4 +33,9 @@ public class StreamService {
         }
         streamRepository.deleteById(id);
     }
+
+    public Stream getStreamById(int id) {
+        return streamRepository.findById(id).orElseThrow(() -> new StreamNotFoundException(id));
+    }
+
 }

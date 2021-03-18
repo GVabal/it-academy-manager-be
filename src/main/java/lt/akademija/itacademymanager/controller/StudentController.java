@@ -2,7 +2,7 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.model.Student;
-import lt.akademija.itacademymanager.payload.StudentNewRequest;
+import lt.akademija.itacademymanager.payload.request.StudentNewRequest;
 import lt.akademija.itacademymanager.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

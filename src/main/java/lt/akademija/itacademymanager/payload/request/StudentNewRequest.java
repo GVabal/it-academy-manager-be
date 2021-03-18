@@ -1,4 +1,4 @@
-package lt.akademija.itacademymanager.payload;
+package lt.akademija.itacademymanager.payload.request;
 
 import lombok.Data;
 import lt.akademija.itacademymanager.model.Student;

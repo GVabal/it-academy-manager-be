@@ -1,7 +1,6 @@
-package lt.akademija.itacademymanager.payload;
+package lt.akademija.itacademymanager.payload.request;
 
 import lombok.Data;
-import lt.akademija.itacademymanager.model.Review;
 
 import javax.validation.constraints.*;
 
@@ -49,18 +48,11 @@ public class ReviewNewRequest {
     @Size(max = 255, message = "Comment is too long")
     private String communicationComment;
 
-    public Review toReview() {
-        return new Review.Builder()
-                .withOverallGrade(overallGrade)
-                .withOverallComment(overallComment)
-                .withAbilityToLearnGrade(abilityToLearnGrade)
-                .withAbilityToLearnComment(abilityToLearnComment)
-                .withMotivationGrade(motivationGrade)
-                .withMotivationComment(motivationComment)
-                .withExtraMileGrade(extraMileGrade)
-                .withExtraMileComment(extraMileComment)
-                .withCommunicationGrade(communicationGrade)
-                .withCommunicationComment(communicationComment)
-                .build();
-    }
+    @NotNull
+    private Integer studentId;
+
+    @NotNull
+    private Integer streamId;
+
+
 }
