@@ -8,6 +8,7 @@ import lt.akademija.itacademymanager.model.Review;
 @AllArgsConstructor
 public class ReviewResponse {
 
+    private final int id;
     private final int overallGrade;
     private final String overallComment;
     private final int abilityToLearnGrade;
@@ -20,7 +21,7 @@ public class ReviewResponse {
     private final String communicationComment;
 
     public static ReviewResponse toReviewResponse(Review review) {
-        return new ReviewResponse(
+        return new ReviewResponse(review.getId(),
                 review.getOverallGrade(), review.getOverallComment(),
                 review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
                 review.getMotivationGrade(), review.getMotivationComment(),
