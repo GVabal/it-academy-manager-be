@@ -1,26 +1,21 @@
 package lt.akademija.itacademymanager.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.model.ProfilePicture;
 import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.StudentNewRequest;
 import lt.akademija.itacademymanager.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class StudentService {
-    @Value("${environment.address.url}")
-    private String address;
-
-    private String apiUrl = address + "/api/profile-pictures/";
+    private static final String API_URL = "/api/profile-pictures/";
 
     private final StudentRepository studentRepository;
     private final ProfilePictureService profilePictureService;
@@ -42,7 +37,7 @@ public class StudentService {
         Student student = new Student(
                 request.getFirstName(),
                 request.getLastName(),
-                apiUrl + profilePicture.getId(),
+                API_URL + profilePicture.getId(),
                 request.getOccupation(),
                 request.getDirection()
         );
@@ -76,7 +71,7 @@ public class StudentService {
         Student updatedStudent = new Student(
                 request.getFirstName(),
                 request.getLastName(),
-                apiUrl + newProfilePicture.getId(),
+                API_URL + newProfilePicture.getId(),
                 request.getOccupation(),
                 request.getDirection()
         );
