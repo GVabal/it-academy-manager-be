@@ -2,7 +2,6 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.payload.request.ReviewNewRequest;
-import lt.akademija.itacademymanager.payload.response.ReviewResponse;
 import lt.akademija.itacademymanager.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Void> addReview(@RequestBody @Valid ReviewNewRequest request) {
-        ReviewResponse.toReviewResponse(reviewService.addReview(request));
+        reviewService.addReview(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
