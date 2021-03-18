@@ -99,6 +99,10 @@ public class StudentService {
         studentRepository.delete(student);
     }
 
+    public boolean existsById(int id) {
+        return studentRepository.existsById(id);
+    }
+
     private String generatePictureUrl(int id) {
         return address + "/api/profile-pictures/" + id;
     }

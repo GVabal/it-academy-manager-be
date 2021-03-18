@@ -1,12 +1,15 @@
 package lt.akademija.itacademymanager.service;
 
 import lombok.AllArgsConstructor;
+import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.model.Review;
 import lt.akademija.itacademymanager.model.Stream;
 import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.request.ReviewNewRequest;
 import lt.akademija.itacademymanager.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -35,5 +38,12 @@ public class ReviewService {
                 .build();
 
         return reviewRepository.save(review);
+    }
+
+    public List<Review> getAllReviewsForStudent(int id) {
+        if (studentService.existsById(id)) {
+            return reviewRepository.findAllByStudentId(id);
+        }
+        throw new StudentNotFoundException("No student with id " + id);
     }
 }
