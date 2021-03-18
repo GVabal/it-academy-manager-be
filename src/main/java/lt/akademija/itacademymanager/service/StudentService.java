@@ -1,6 +1,5 @@
 package lt.akademija.itacademymanager.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.model.ProfilePicture;
@@ -8,26 +7,23 @@ import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.StudentNewRequest;
 import lt.akademija.itacademymanager.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class StudentService {
-    @Value("${myname:default}")
+    @Value("${environment.address.url}")
     private String address;
 
-    private String apiUrl = String.format("%s:8080/api/profile-pictures/", address);
+    private String apiUrl = address + "/api/profile-pictures/";
 
     private final StudentRepository studentRepository;
     private final ProfilePictureService profilePictureService;
-
-    public StudentService(StudentRepository studentRepository, ProfilePictureService profilePictureService) {
-        this.studentRepository = studentRepository;
-        this.profilePictureService = profilePictureService;
-    }
 
     public Student addStudent(StudentNewRequest request) {
         Student student = new Student(
