@@ -1,6 +1,7 @@
 package lt.akademija.itacademymanager.service;
 
 import lombok.AllArgsConstructor;
+import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureFailedToUploadException;
 import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureFileSizeTooLargeException;
 import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureInvalidException;
 import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureNotFoundException;
@@ -23,9 +24,14 @@ public class ProfilePictureService {
                 .orElseThrow(() -> new ProfilePictureNotFoundException("No picture with id " + id));
     }
 
-    public ProfilePicture storePicture(MultipartFile picture) throws IOException {
+    public ProfilePicture storePicture(MultipartFile picture) {
         validateProfilePictureFile(picture);
-        ProfilePicture profilePicture = new ProfilePicture(picture.getBytes());
+        ProfilePicture profilePicture;
+        try {
+            profilePicture = new ProfilePicture(picture.getBytes());
+        } catch (IOException e) {
+            throw new ProfilePictureFailedToUploadException(e.getMessage());
+        }
         return profilePictureRepository.save(profilePicture);
     }
 

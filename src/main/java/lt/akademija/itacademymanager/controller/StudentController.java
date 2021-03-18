@@ -28,10 +28,13 @@ public class StudentController {
         return studentService.addStudentWithPicture(request, picture);
     }
 
-    @PutMapping(path = "/{id}")
-    public Student updatePerson(@RequestBody @Valid StudentNewRequest request, @PathVariable("id") Integer id) {
-        // picture logic here as well
-        return studentService.updateStudent(request, id);
+    @PutMapping(path = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public Student updateStudent(@RequestPart @Valid StudentNewRequest request, @PathVariable("id") Integer id,
+                                 @RequestPart(required = false) MultipartFile picture) {
+        if (picture == null) {
+            return studentService.updateStudent(request, id);
+        }
+        return studentService.updateStudentWithPicture(request, id, picture);
     }
 
     @GetMapping

@@ -1,5 +1,6 @@
 package lt.akademija.itacademymanager.controller;
 
+import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureFailedToUploadException;
 import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureFileSizeTooLargeException;
 import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureInvalidException;
 import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureNotFoundException;
@@ -53,6 +54,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProfilePictureNotFoundException.class)
     public ResponseEntity<Map<String, String>> handlePictureNotFoundException(ProfilePictureNotFoundException exception) {
         return generateResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProfilePictureFailedToUploadException.class)
+    public ResponseEntity<Map<String, String>> handleProfilePictureFailedToUploadException(ProfilePictureFailedToUploadException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Map<String, String> generateResponseBody(HttpStatus status, String message) {

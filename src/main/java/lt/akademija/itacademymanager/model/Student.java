@@ -27,7 +27,7 @@ public class Student {
         this.direction = direction;
     }
 
-    public int getPictureId() {
+    public int extractPictureId() {
         return pictureUrl != null ? Integer.parseInt(pictureUrl.replaceFirst(".*/", "")) : 0;
     }
 }
