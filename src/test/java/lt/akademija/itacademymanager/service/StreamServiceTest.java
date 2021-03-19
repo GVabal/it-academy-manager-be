@@ -25,13 +25,14 @@ public class StreamServiceTest {
 
     @Mock
     StreamRepository streamRepository;
-    Stream stream1 = new Stream("BB");
-    Stream stream2 = new Stream("CC");
 
     @Before
     public void initMocks() {
         MockitoAnnotations.openMocks(this);
     }
+
+    Stream stream1 = new Stream("BB");
+    Stream stream2 = new Stream("CC");
 
     @Test
     public void shouldGetListOfStreamsSuccessfully() {
