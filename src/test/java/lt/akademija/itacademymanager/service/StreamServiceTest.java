@@ -106,7 +106,6 @@ public class StreamServiceTest {
 
     @Test
     public void shouldThrowException_WhenTryingToGetNonExistingStreamById() {
-        stream1.setId(1);
         assertThrows(StreamNotFoundException.class, () -> streamService.getStreamById(1));
         verify(streamRepository, times(1)).findById(any());
     }
