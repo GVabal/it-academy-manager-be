@@ -3,6 +3,8 @@ package lt.akademija.itacademymanager.controller;
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.request.StudentNewRequest;
+import lt.akademija.itacademymanager.payload.response.ReviewResponse;
+import lt.akademija.itacademymanager.service.ReviewService;
 import lt.akademija.itacademymanager.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("api/students")
 public class StudentController {
     private final StudentService studentService;
+    private final ReviewService reviewService;
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,5 +56,10 @@ public class StudentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudentById(id);
+    }
+
+    @GetMapping("{id}/reviews")
+    public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
+        return reviewService.getAllReviewsForStudent(id);
     }
 }

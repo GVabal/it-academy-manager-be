@@ -1,12 +1,17 @@
 package lt.akademija.itacademymanager.service;
 
 import lombok.AllArgsConstructor;
+import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.model.Review;
 import lt.akademija.itacademymanager.model.Stream;
 import lt.akademija.itacademymanager.model.Student;
 import lt.akademija.itacademymanager.payload.request.ReviewNewRequest;
+import lt.akademija.itacademymanager.payload.response.ReviewResponse;
 import lt.akademija.itacademymanager.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -35,5 +40,25 @@ public class ReviewService {
                 .build();
 
         return reviewRepository.save(review);
+    }
+
+    public List<ReviewResponse> getAllReviewsForStudent(int id) {
+        if (studentService.existsById(id)) {
+            List<Review> reviewList = reviewRepository.findAllByStudentId(id);
+            return mapToReviewResponse(reviewList);
+        }
+        throw new StudentNotFoundException("No student with id " + id);
+    }
+
+    private List<ReviewResponse> mapToReviewResponse(List<Review> reviewList) {
+        return reviewList.stream()
+                .map(review -> new ReviewResponse(review.getId(),
+                        review.getOverallGrade(), review.getOverallComment(),
+                        review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
+                        review.getMotivationGrade(), review.getMotivationComment(),
+                        review.getExtraMileGrade(), review.getExtraMileComment(),
+                        review.getCommunicationGrade(), review.getCommunicationComment()
+                ))
+                .collect(Collectors.toList());
     }
 }
