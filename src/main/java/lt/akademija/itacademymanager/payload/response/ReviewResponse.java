@@ -2,7 +2,6 @@ package lt.akademija.itacademymanager.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lt.akademija.itacademymanager.model.Review;
 
 @Data
 @AllArgsConstructor
@@ -19,14 +18,4 @@ public class ReviewResponse {
     private final String extraMileComment;
     private final int communicationGrade;
     private final String communicationComment;
-
-    public static ReviewResponse toReviewResponse(Review review) {
-        return new ReviewResponse(review.getId(),
-                review.getOverallGrade(), review.getOverallComment(),
-                review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
-                review.getMotivationGrade(), review.getMotivationComment(),
-                review.getExtraMileGrade(), review.getExtraMileComment(),
-                review.getCommunicationGrade(), review.getCommunicationComment()
-        );
-    }
 }

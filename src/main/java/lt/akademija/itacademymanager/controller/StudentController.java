@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -61,8 +60,6 @@ public class StudentController {
 
     @GetMapping("{id}/reviews")
     public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
-        return reviewService.getAllReviewsForStudent(id).stream()
-                .map(ReviewResponse::toReviewResponse)
-                .collect(Collectors.toList());
+        return reviewService.getAllReviewsForStudent(id);
     }
 }
