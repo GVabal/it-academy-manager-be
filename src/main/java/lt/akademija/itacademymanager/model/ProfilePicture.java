@@ -1,12 +1,13 @@
 package lt.akademija.itacademymanager.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "profile_picture")
 public class ProfilePicture {

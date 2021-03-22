@@ -40,10 +40,11 @@ public class ProfilePictureService {
     }
 
     public void deletePicture(int id) {
-        profilePictureRepository.deleteById(id);
+        ProfilePicture picture = getPictureById(id);
+        profilePictureRepository.delete(picture);
     }
 
-    protected void validateProfilePictureFile(MultipartFile file) {
+    private void validateProfilePictureFile(MultipartFile file) {
         if (file.isEmpty() || !file.getContentType().contains("image/")) {
             throw new ProfilePictureInvalidException();
         }
