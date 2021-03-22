@@ -52,7 +52,7 @@ public class ReviewService {
 
     private List<ReviewResponse> mapToReviewResponse(List<Review> reviewList) {
         return reviewList.stream()
-                .map(review -> new ReviewResponse(review.getId(),
+                .map(review -> new ReviewResponse(review.getId(), review.getStudent().getId(),
                         review.getOverallGrade(), review.getOverallComment(),
                         review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
                         review.getMotivationGrade(), review.getMotivationComment(),

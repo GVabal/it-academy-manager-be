@@ -8,6 +8,7 @@ import lombok.Data;
 public class ReviewResponse {
 
     private final int id;
+    private final int studentId;
     private final int overallGrade;
     private final String overallComment;
     private final int abilityToLearnGrade;
