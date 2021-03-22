@@ -25,12 +25,12 @@ public class StreamController {
 
     @PostMapping
     public ResponseEntity<Stream> addStream(@RequestBody @Valid StreamNewRequest request) {
-        return new ResponseEntity<>(streamService.addStream(request.toStream()), HttpStatus.OK);
+        return new ResponseEntity<>(streamService.addStream(request.toStream()), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStream(@PathVariable("id") int id) {
         streamService.deleteStream(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
