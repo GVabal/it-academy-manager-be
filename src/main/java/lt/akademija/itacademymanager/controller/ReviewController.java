@@ -22,6 +22,6 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Review> addReview(@RequestBody @Valid ReviewNewRequest request) {
-        return new ResponseEntity<>(reviewService.addReview(request),HttpStatus.CREATED);
+        return new ResponseEntity<>(reviewService.addReview(request), HttpStatus.CREATED);
     }
 }
