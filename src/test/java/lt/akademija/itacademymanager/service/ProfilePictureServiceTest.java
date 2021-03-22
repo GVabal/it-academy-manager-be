@@ -108,6 +108,24 @@ class ProfilePictureServiceTest {
         });
     }
 
+    @Test
+    void existsById_exists() {
+        when(profilePictureRepository.existsById(any())).thenReturn(true);
+
+        boolean result = profilePictureService.existsById(1);
+
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void existsById_doesNotExist() {
+        when(profilePictureRepository.existsById(any())).thenReturn(false);
+
+        boolean result = profilePictureService.existsById(1);
+
+        assertThat(result).isFalse();
+    }
+
     private MultipartFile mockMultipartImage() throws IOException {
         File pictureFile = new File("src/test/resources/profile-picture.png");
         FileInputStream input = new FileInputStream(pictureFile);
