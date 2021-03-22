@@ -124,7 +124,7 @@ class ProfilePictureServiceTest {
     private MultipartFile mockMultipartNonImage() {
         return new MockMultipartFile(
                 "not-a-picture", null,
-                "txt/plain", (byte[]) null
+                "txt/plain", new byte[]{1,2,3}
         );
     }
 
