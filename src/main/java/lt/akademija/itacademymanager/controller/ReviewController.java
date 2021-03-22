@@ -1,6 +1,7 @@
 package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
+import lt.akademija.itacademymanager.model.Review;
 import lt.akademija.itacademymanager.payload.request.ReviewNewRequest;
 import lt.akademija.itacademymanager.service.ReviewService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<Void> addReview(@RequestBody @Valid ReviewNewRequest request) {
-        reviewService.addReview(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Review> addReview(@RequestBody @Valid ReviewNewRequest request) {
+        return new ResponseEntity<>(reviewService.addReview(request), HttpStatus.CREATED);
     }
 }
