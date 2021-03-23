@@ -22,7 +22,7 @@ public class Student {
     private String direction;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private Set<Review> reviews;
 
     public Student(String firstName, String lastName, String pictureUrl, String occupation, String direction) {

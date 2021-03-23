@@ -12,6 +12,6 @@ communication_grade integer NOT NULL,
 communication_comment VARCHAR(255),
 student_id integer,
 stream_id integer,
-CONSTRAINT fk_student_id FOREIGN KEY(student_id) REFERENCES student(id),
-CONSTRAINT fk_stream_id FOREIGN KEY(stream_id) REFERENCES stream(id)
+CONSTRAINT fk_student_id FOREIGN KEY(student_id) REFERENCES student(id) ON DELETE CASCADE,
+CONSTRAINT fk_stream_id FOREIGN KEY(stream_id) REFERENCES stream(id) ON DELETE SET NULL
 );
