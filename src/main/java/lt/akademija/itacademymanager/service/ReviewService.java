@@ -21,7 +21,7 @@ public class ReviewService {
     private final StreamService streamService;
     private final ReviewRepository reviewRepository;
 
-    public Review addReview(ReviewNewRequest request) {
+    public ReviewResponse addReview(ReviewNewRequest request) {
         Student student = studentService.getStudentById(request.getStudentId());
         Stream stream = streamService.getStreamById(request.getStreamId());
         Review review = new Review.Builder()
@@ -39,7 +39,7 @@ public class ReviewService {
                 .withCommunicationComment(request.getCommunicationComment())
                 .build();
 
-        return reviewRepository.save(review);
+        return mapToReviewResponse(reviewRepository.save(review));
     }
 
     public List<ReviewResponse> getAllReviewsForStudent(int id) {
@@ -60,5 +60,15 @@ public class ReviewService {
                         review.getCommunicationGrade(), review.getCommunicationComment()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    private ReviewResponse mapToReviewResponse(Review review) {
+        return new ReviewResponse(review.getId(), review.getStudent().getId(),
+                review.getOverallGrade(), review.getOverallComment(),
+                review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
+                review.getMotivationGrade(), review.getMotivationComment(),
+                review.getExtraMileGrade(), review.getExtraMileComment(),
+                review.getCommunicationGrade(), review.getCommunicationComment()
+        );
     }
 }
