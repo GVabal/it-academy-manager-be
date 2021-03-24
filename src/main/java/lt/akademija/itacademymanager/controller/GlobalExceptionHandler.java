@@ -1,5 +1,9 @@
 package lt.akademija.itacademymanager.controller;
 
+import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureFailedToUploadException;
+import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureFileSizeTooLargeException;
+import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureInvalidException;
+import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureNotFoundException;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.exception.stream.StreamAlreadyExistsException;
 import lt.akademija.itacademymanager.exception.stream.StreamNotFoundException;
@@ -35,6 +39,26 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         String message = exception.getBindingResult().getFieldError().getDefaultMessage();
         return generateResponse(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProfilePictureFileSizeTooLargeException.class)
+    public ResponseEntity<Map<String, String>> handleProfilePictureFileSizeTooLargeException(ProfilePictureFileSizeTooLargeException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.EXPECTATION_FAILED);
+    }
+
+    @ExceptionHandler(ProfilePictureInvalidException.class)
+    public ResponseEntity<Map<String, String>> handlePictureInvalidException(ProfilePictureInvalidException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProfilePictureNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handlePictureNotFoundException(ProfilePictureNotFoundException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProfilePictureFailedToUploadException.class)
+    public ResponseEntity<Map<String, String>> handleProfilePictureFailedToUploadException(ProfilePictureFailedToUploadException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Map<String, String> generateResponseBody(HttpStatus status, String message) {

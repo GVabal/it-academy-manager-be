@@ -2,7 +2,7 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.model.Stream;
-import lt.akademija.itacademymanager.payload.StreamNewRequest;
+import lt.akademija.itacademymanager.payload.request.StreamNewRequest;
 import lt.akademija.itacademymanager.service.StreamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +25,12 @@ public class StreamController {
 
     @PostMapping
     public ResponseEntity<Stream> addStream(@RequestBody @Valid StreamNewRequest request) {
-        return new ResponseEntity<>(streamService.addStream(request.toStream()), HttpStatus.OK);
+        return new ResponseEntity<>(streamService.addStream(request.toStream()), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStream(@PathVariable("id") int id) {
         streamService.deleteStream(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

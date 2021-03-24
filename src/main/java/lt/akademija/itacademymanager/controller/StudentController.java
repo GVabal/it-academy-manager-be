@@ -2,10 +2,14 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.model.Student;
-import lt.akademija.itacademymanager.payload.StudentNewRequest;
+import lt.akademija.itacademymanager.payload.request.StudentNewRequest;
+import lt.akademija.itacademymanager.payload.response.ReviewResponse;
+import lt.akademija.itacademymanager.service.ReviewService;
 import lt.akademija.itacademymanager.service.StudentService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,15 +19,25 @@ import java.util.List;
 @RequestMapping("api/students")
 public class StudentController {
     private final StudentService studentService;
+    private final ReviewService reviewService;
 
-    @PostMapping
-    public Student addStudent(@RequestBody @Valid StudentNewRequest request) {
-        return studentService.addStudent(request.toStudent());
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Student addStudent(@RequestPart @Valid StudentNewRequest request,
+                              @RequestPart(required = false) MultipartFile picture) {
+        if (picture == null) {
+            return studentService.addStudent(request);
+        }
+        return studentService.addStudentWithPicture(request, picture);
     }
 
-    @PutMapping(path = "/{id}")
-    public Student updatePerson(@RequestBody @Valid StudentNewRequest request, @PathVariable("id") Integer id) {
-        return studentService.updateStudent(request.toStudent(), id);
+    @PutMapping(path = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public Student updateStudent(@RequestPart @Valid StudentNewRequest request, @PathVariable("id") Integer id,
+                                 @RequestPart(required = false) MultipartFile picture) {
+        if (picture == null) {
+            return studentService.updateStudent(request, id);
+        }
+        return studentService.updateStudentWithPicture(request, id, picture);
     }
 
     @GetMapping
@@ -42,5 +56,10 @@ public class StudentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudentById(id);
+    }
+
+    @GetMapping("{id}/reviews")
+    public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
+        return reviewService.getAllReviewsForStudent(id);
     }
 }
