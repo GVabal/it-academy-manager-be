@@ -32,17 +32,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().
                 cors().and().authorizeRequests()
-                //.antMatchers("/api/students").hasRole("lecturer").and().authorizeRequests()
-
-                .antMatchers("/api/streams").hasRole("LECTURER")
-                .antMatchers("/api/students").hasRole("MANAGER")
-                .antMatchers("/api/users").permitAll()
+                .antMatchers("/api/streams").hasAnyRole("LECTURER", "ADMIN", "LECTURER")
+                .antMatchers("/api/students").hasAnyRole("MANAGER", "ADMIN", "LECTURER")
+                .antMatchers("/api/users").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .and().logout().logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID")
                 .and().httpBasic();
         //http.headers().frameOptions().disable();
 

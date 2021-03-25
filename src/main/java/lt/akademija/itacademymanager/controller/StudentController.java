@@ -8,6 +8,7 @@ import lt.akademija.itacademymanager.service.ReviewService;
 import lt.akademija.itacademymanager.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,7 @@ public class StudentController {
 
     @GetMapping
     @ResponseBody
+    @PreAuthorize("hasAnyRole('ADMIN', MANAGER)")
     public List<Student> getStudentList() {
         return studentService.getAllStudents();
     }
@@ -55,11 +57,13 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudentById(id);
     }
 
     @GetMapping("{id}/reviews")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
         return reviewService.getAllReviewsForStudent(id);
     }
