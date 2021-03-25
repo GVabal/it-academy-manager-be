@@ -5,18 +5,18 @@ import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.exception.user.UserAlreadyExists;
 import lt.akademija.itacademymanager.exception.user.UserNotFoundException;
 import lt.akademija.itacademymanager.model.ApplicationUser;
+import lt.akademija.itacademymanager.model.Role;
 import lt.akademija.itacademymanager.payload.request.UserNewRequest;
 import lt.akademija.itacademymanager.repository.UserRepository;
+import lt.akademija.itacademymanager.security.PasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 
 
 @AllArgsConstructor
@@ -24,8 +24,9 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ResponseEntity<ApplicationUser> addUser(UserNewRequest request){
+    public ResponseEntity<ApplicationUser> addUser(UserNewRequest request) {
         ApplicationUser user = new ApplicationUser(
                 request.getFirstName(),
                 request.getLastName(),
@@ -33,13 +34,12 @@ public class UserService implements UserDetailsService {
                 request.getPassword(),
                 request.getRole()
         );
-        if(!userRepository.existsByEmail(user.getEmail())){
-            if(!userRepository.existsByPassword(user.getPassword())){
-                user.setPassword(user.getPassword());
+        if (!userRepository.existsByEmail(user.getEmail())) {
+            if (!userRepository.existsByPassword(user.getPassword())) {
+                user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
                 userRepository.save(user);
-                return new ResponseEntity(user, HttpStatus.CREATED);
-            }
-            else{
+                return new ResponseEntity<>(user, HttpStatus.CREATED);
+            } else {
                 throw new UserAlreadyExists("Email already exists.");
             }
         }
