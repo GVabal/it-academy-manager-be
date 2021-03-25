@@ -5,13 +5,13 @@ public enum Role {
     LECTURER("LECTURER"),
     MANAGER("MANAGER");
 
-    public final String role;
+    public final String value;
 
     Role(String role){
-        this.role = role;
+        this.value = role;
     }
 
     public String getRole(){
-        return role;
+        return value;
     }
 }

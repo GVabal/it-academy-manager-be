@@ -14,8 +14,7 @@ public class ApplicationUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String firstName;
-    private String lastName;
+    private String fullName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -24,11 +23,11 @@ public class ApplicationUser {
 
     private String role;
 
-    public ApplicationUser(String firstName, String lastName, String email, String password, String role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public ApplicationUser(String fullName, String email, String password, String role) {
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
     }
+
 }

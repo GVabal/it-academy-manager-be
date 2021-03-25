@@ -6,6 +6,7 @@ import lt.akademija.itacademymanager.payload.response.ReviewResponse;
 import lt.akademija.itacademymanager.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @PreAuthorize("hasRole('LECTURER')")
     @PostMapping
     public ResponseEntity<ReviewResponse> addReview(@RequestBody @Valid ReviewNewRequest request) {
         return new ResponseEntity<>(reviewService.addReview(request), HttpStatus.CREATED);

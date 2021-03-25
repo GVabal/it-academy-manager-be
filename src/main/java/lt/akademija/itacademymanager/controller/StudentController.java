@@ -23,6 +23,7 @@ public class StudentController {
     private final StudentService studentService;
     private final ReviewService reviewService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public Student addStudent(@RequestPart @Valid StudentNewRequest request,
@@ -33,6 +34,7 @@ public class StudentController {
         return studentService.addStudentWithPicture(request, picture);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Student updateStudent(@RequestPart @Valid StudentNewRequest request, @PathVariable("id") Integer id,
                                  @RequestPart(required = false) MultipartFile picture) {
@@ -44,7 +46,6 @@ public class StudentController {
 
     @GetMapping
     @ResponseBody
-    @PreAuthorize("hasAnyRole('ADMIN', MANAGER)")
     public List<Student> getStudentList() {
         return studentService.getAllStudents();
     }
@@ -55,15 +56,15 @@ public class StudentController {
         return studentService.getStudentById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('ADMIN')")
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudentById(id);
     }
 
-    @GetMapping("{id}/reviews")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("{id}/reviews")
     public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
         return reviewService.getAllReviewsForStudent(id);
     }

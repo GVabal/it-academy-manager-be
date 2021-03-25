@@ -33,22 +33,18 @@ public class UserService implements UserDetailsService {
                 request.getRole()
         );
         if (!userRepository.existsByEmail(user.getEmail())) {
-
-            user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
-            userRepository.save(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
-
-        } else {
             throw new UserAlreadyExists("Email already exists.");
         }
+        user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
+        userRepository.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     public ApplicationUser loadUserByEmail(String email) {
-        if (userRepository.existsByEmail(email)) {
-            return userRepository.findByEmail(email);
-        } else {
+        if (!userRepository.existsByEmail(email)) {
             throw new UserNotFoundException(email);
         }
+        return userRepository.findByEmail(email);
     }
 
     public boolean authenticate(ApplicationUser user) {
@@ -62,7 +58,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ApplicationUser applicationUser = loadUserByEmail(email);
-        System.out.println(applicationUser.toString());
         return User.withUsername(applicationUser.getEmail()).password(applicationUser.getPassword()).roles(applicationUser.getRole()).build();
     }
 }
