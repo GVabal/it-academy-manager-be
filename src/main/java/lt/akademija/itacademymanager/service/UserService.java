@@ -1,6 +1,5 @@
 package lt.akademija.itacademymanager.service;
 
-
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.exception.user.UserAlreadyExists;
 import lt.akademija.itacademymanager.exception.user.UserNotFoundException;
@@ -16,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 @AllArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
@@ -26,8 +24,7 @@ public class UserService implements UserDetailsService {
 
     public ResponseEntity<ApplicationUser> addUser(UserNewRequest request) {
         ApplicationUser user = new ApplicationUser(
-                request.getFirstName(),
-                request.getLastName(),
+                request.getFullName(),
                 request.getEmail(),
                 request.getPassword(),
                 request.getRole()
