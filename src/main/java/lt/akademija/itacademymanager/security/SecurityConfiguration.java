@@ -36,9 +36,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/api/streams").hasRole("LECTURER")
                 .antMatchers("/api/students").hasRole("MANAGER")
-                .antMatchers("/**").permitAll()
-                //.antMatchers("/api/streams").hasRole("manager")
-               // .antMatchers("/api/users")
+                .antMatchers("/api/users").permitAll()
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/login")
+                .and().logout().logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .and().httpBasic();
         //http.headers().frameOptions().disable();
 
@@ -58,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    protected UserDetailsService userDetailsService(){
 //        UserDetails admin = User.builder()
 //                .username("user")
-//                .password(passwordEncoder().encode("password"))
+//                .password(passwordEncoder.encoder().encode("password"))
 //                .roles("ADMIN")
 //                .build();
 //        return new InMemoryUserDetailsManager(admin);
