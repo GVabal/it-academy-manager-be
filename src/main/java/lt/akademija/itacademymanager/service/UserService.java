@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
                 request.getPassword(),
                 request.getRole()
         );
-        if (!userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new UserAlreadyExists("Email already exists.");
         }
         user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
