@@ -48,7 +48,6 @@ public class UserService implements UserDetailsService {
         return enumValues.contains(request.getRole()) && !request.getRole().equals("ADMIN");
     }
 
-
     public ApplicationUser loadUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
