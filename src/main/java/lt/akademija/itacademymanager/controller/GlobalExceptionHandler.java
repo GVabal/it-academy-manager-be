@@ -7,6 +7,9 @@ import lt.akademija.itacademymanager.exception.profilepicture.ProfilePictureNotF
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
 import lt.akademija.itacademymanager.exception.stream.StreamAlreadyExistsException;
 import lt.akademija.itacademymanager.exception.stream.StreamNotFoundException;
+import lt.akademija.itacademymanager.exception.user.NoSuchRoleException;
+import lt.akademija.itacademymanager.exception.user.UserAlreadyExistsException;
+import lt.akademija.itacademymanager.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -59,6 +62,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProfilePictureFailedToUploadException.class)
     public ResponseEntity<Map<String, String>> handleProfilePictureFailedToUploadException(ProfilePictureFailedToUploadException exception) {
         return generateResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> exception(UserAlreadyExistsException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> exception(UserNotFoundException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = NoSuchRoleException.class)
+    public ResponseEntity<Map<String, String>> exception(NoSuchRoleException exception) {
+        return generateResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private Map<String, String> generateResponseBody(HttpStatus status, String message) {
