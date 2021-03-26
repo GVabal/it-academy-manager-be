@@ -43,12 +43,14 @@ public class StudentController {
         return studentService.updateStudentWithPicture(request, id, picture);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'MANAGER')")
     @GetMapping
     @ResponseBody
     public List<Student> getStudentList() {
         return studentService.getAllStudents();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'MANAGER')")
     @GetMapping(path = "/{id}")
     @ResponseBody
     public Student getStudentById(@PathVariable("id") int id) {
@@ -62,7 +64,7 @@ public class StudentController {
         studentService.deleteStudentById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PreAuthorize("hasAnyRole('MANAGER')")
     @GetMapping("{id}/reviews")
     public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
         return reviewService.getAllReviewsForStudent(id);

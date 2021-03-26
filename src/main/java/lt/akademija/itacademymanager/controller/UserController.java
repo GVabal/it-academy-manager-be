@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.payload.request.UserNewRequest;
 import lt.akademija.itacademymanager.service.UserService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> addUser(@RequestBody @Valid UserNewRequest userNewRequest){
-        return userService.addUser(userNewRequest);
+        userService.addUser(userNewRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

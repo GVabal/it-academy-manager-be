@@ -9,8 +9,6 @@ import lt.akademija.itacademymanager.model.Role;
 import lt.akademija.itacademymanager.payload.request.UserNewRequest;
 import lt.akademija.itacademymanager.repository.UserRepository;
 import lt.akademija.itacademymanager.security.PasswordEncoder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +26,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public ResponseEntity<Void> addUser(UserNewRequest request) {
+    public void addUser(UserNewRequest request) {
         if (isRoleValid(request)) {
             ApplicationUser user = new ApplicationUser(
                     request.getFullName(),
@@ -41,7 +39,6 @@ public class UserService implements UserDetailsService {
             }
             user.setPassword(passwordEncoder.encoder().encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
         } else throw new NoSuchRoleException(request.getRole());
     }
 
