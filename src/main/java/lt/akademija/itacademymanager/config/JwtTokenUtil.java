@@ -3,6 +3,10 @@ package lt.akademija.itacademymanager.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.gson.io.GsonDeserializer;
+import io.jsonwebtoken.gson.io.GsonSerializer;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -24,11 +28,9 @@ public class JwtTokenUtil implements Serializable {
 
     public static final long JWT_TOKEN_VALIDITY = 15 * 60;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private String secret = "2qUnPcOgX1b6bACWnk49tlfdWbI0f93F9igizvA2kb6oBrIavkl73520ut2qA2J";
 
-    Key key = new SecretKeySpec(Base64.getDecoder().decode(secret),
-            SignatureAlgorithm.HS256.getJcaName());
+    Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -46,8 +48,6 @@ public class JwtTokenUtil implements Serializable {
     }
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-        Key key = new SecretKeySpec(Base64.getDecoder().decode(secret),
-                SignatureAlgorithm.HS256.getJcaName());
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
@@ -75,7 +75,7 @@ public class JwtTokenUtil implements Serializable {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(key, SignatureAlgorithm.HS512).compact();
+                .signWith(key).serializeToJsonWith(new GsonSerializer()).compact();
     }
 
     //validate token
