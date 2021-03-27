@@ -22,7 +22,7 @@ public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
     private static final String SECRET = "2qUnPcOgX1b6bACWnk49tlfdWbI0f93F9igizvA2kb6oBrIavkl73520ut2qA2J";
 
-    Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET));
+        Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET));
 
     public String getEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);

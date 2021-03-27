@@ -2,7 +2,7 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.config.JwtTokenUtil;
-import lt.akademija.itacademymanager.payload.request.UserNewRequest;
+import lt.akademija.itacademymanager.payload.request.LoginRequest;
 import lt.akademija.itacademymanager.payload.response.JwtResponse;
 import lt.akademija.itacademymanager.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @AllArgsConstructor
 public class JwtAuthenticationController {
@@ -23,21 +25,21 @@ public class JwtAuthenticationController {
     private final UserService userService;
 
     @PostMapping(value = "api/login")
-    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody UserNewRequest authenticationRequest) {
+    public ResponseEntity<JwtResponse> createAuthenticationToken(@Valid @RequestBody LoginRequest loginRequest) {
 
-        authenticate(authenticationRequest);
+        authenticate(loginRequest);
 
-        final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getEmail());
+        final UserDetails userDetails = userService.loadUserByUsername(loginRequest.getEmail());
+        String role = userService.getRole(loginRequest.getEmail());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(authenticationRequest.getEmail(), authenticationRequest.getRole(), token));
+        return ResponseEntity.ok(new JwtResponse(userDetails.getUsername(), role, token));
     }
 
-    private void authenticate(UserNewRequest authenticationRequest) {
+    private void authenticate(LoginRequest loginRequest) {
         try {
-            userService.authenticateRole(authenticationRequest);
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid credentials");
         }

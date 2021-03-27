@@ -37,7 +37,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 email = jwtTokenUtil.getEmailFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
+            }
+            catch (IllegalArgumentException e) {
                 throw new InvalidTokenException("Unable to get token");
             } catch (ExpiredJwtException e) {
                 throw new InvalidTokenException("Token has expired");

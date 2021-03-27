@@ -52,15 +52,13 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
+    public String getRole(String email){
+        return loadUserByEmail(email).getRole();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ApplicationUser applicationUser = loadUserByEmail(email);
         return User.withUsername(applicationUser.getEmail()).password(applicationUser.getPassword()).roles(applicationUser.getRole()).build();
-    }
-
-    public void authenticateRole(UserNewRequest request){
-        if(!loadUserByEmail(request.getEmail()).getRole().equals(request.getRole())){
-            throw new NoSuchRoleException(request.getRole());
-        }
     }
 }
