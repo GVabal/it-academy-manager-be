@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = InvalidTokenException.class)
-    public ResponseEntity<Map<String, String>> exception(InvalidTokenException exception) {
+    public ResponseEntity<Map<String, String>> handleInvalidToken(InvalidTokenException exception) {
         return generateResponse(exception.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 

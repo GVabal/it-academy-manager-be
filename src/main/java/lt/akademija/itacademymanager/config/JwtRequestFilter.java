@@ -1,9 +1,12 @@
 package lt.akademija.itacademymanager.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.exception.InvalidTokenException;
 import lt.akademija.itacademymanager.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 
 @AllArgsConstructor
 @Component
@@ -43,6 +47,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException e) {
                 throw new InvalidTokenException("Token has expired");
             }
+            catch (MalformedJwtException e) {
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
+            }
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -59,7 +66,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        chain.doFilter(request, response);
+        try{
+            chain.doFilter(request, response);
+        }
+        catch (AccessDeniedException e) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Access denied");
+        }
+        catch (MalformedJwtException e) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
+        }
     }
 }
 
