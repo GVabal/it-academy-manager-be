@@ -48,7 +48,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 throw new InvalidTokenException("Token has expired");
             }
             catch (MalformedJwtException e) {
+
                 response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
+                return;
             }
         }
 
