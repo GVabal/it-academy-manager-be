@@ -2,7 +2,6 @@ package lt.akademija.itacademymanager.controller;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.config.JwtTokenUtil;
-import lt.akademija.itacademymanager.exception.user.UserNotFoundException;
 import lt.akademija.itacademymanager.payload.request.UserNewRequest;
 import lt.akademija.itacademymanager.payload.response.JwtResponse;
 import lt.akademija.itacademymanager.service.UserService;
@@ -26,7 +25,7 @@ public class JwtAuthenticationController {
     @PostMapping(value = "api/login")
     public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody UserNewRequest authenticationRequest) {
 
-        authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+        authenticate(authenticationRequest);
 
         final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getEmail());
 
@@ -35,11 +34,12 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtResponse(authenticationRequest.getEmail(), authenticationRequest.getRole(), token));
     }
 
-    private void authenticate(String email, String password) {
+    private void authenticate(UserNewRequest authenticationRequest) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            userService.authenticateRole(authenticationRequest);
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new UserNotFoundException(email);
+            throw new BadCredentialsException("Invalid credentials");
         }
     }
 }

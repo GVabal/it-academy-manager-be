@@ -57,4 +57,10 @@ public class UserService implements UserDetailsService {
         ApplicationUser applicationUser = loadUserByEmail(email);
         return User.withUsername(applicationUser.getEmail()).password(applicationUser.getPassword()).roles(applicationUser.getRole()).build();
     }
+
+    public void authenticateRole(UserNewRequest request){
+        if(!loadUserByEmail(request.getEmail()).getRole().equals(request.getRole())){
+            throw new NoSuchRoleException(request.getRole());
+        }
+    }
 }
