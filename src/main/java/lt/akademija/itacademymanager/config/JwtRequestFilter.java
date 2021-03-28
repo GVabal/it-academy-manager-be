@@ -1,5 +1,7 @@
 package lt.akademija.itacademymanager.config;
 
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.AllArgsConstructor;
@@ -41,14 +43,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 email = jwtTokenUtil.getEmailFromToken(jwtToken);
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 throw new InvalidTokenException("Unable to get token");
             } catch (ExpiredJwtException e) {
                 throw new InvalidTokenException("Token has expired");
-            }
-            catch (MalformedJwtException e) {
-
+            } catch (MalformedJwtException | JsonSyntaxException e) {
                 response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
                 return;
             }
@@ -59,7 +58,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.userService.loadUserByUsername(email);
 
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
