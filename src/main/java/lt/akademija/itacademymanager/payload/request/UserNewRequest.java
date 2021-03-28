@@ -1,13 +1,18 @@
 package lt.akademija.itacademymanager.payload.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Data
-public class UserNewRequest {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserNewRequest implements Serializable {
 
     @NotBlank(message = "Full name must not be blank.")
     @Size(max = 50, message = "Full name is too long.")
