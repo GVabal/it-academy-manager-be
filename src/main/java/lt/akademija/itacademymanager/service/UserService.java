@@ -55,6 +55,9 @@ public class UserService implements UserDetailsService {
     public String getRole(String email){
         return loadUserByEmail(email).getRole();
     }
+    public String getFullName(String email){
+        return loadUserByEmail(email).getFullName();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

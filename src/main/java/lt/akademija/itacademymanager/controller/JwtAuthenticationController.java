@@ -31,10 +31,10 @@ public class JwtAuthenticationController {
 
         final UserDetails userDetails = userService.loadUserByUsername(loginRequest.getEmail());
         String role = userService.getRole(loginRequest.getEmail());
-
+        String fullName = userService.getFullName(loginRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(userDetails.getUsername(), role, token));
+        return ResponseEntity.ok(new JwtResponse(userDetails.getUsername(), fullName, role, token));
     }
 
     private void authenticate(LoginRequest loginRequest) {
