@@ -24,6 +24,10 @@ public class Review {
     @JoinColumn(name = "stream_id")
     private Stream stream;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private ApplicationUser user;
+
     private int overallGrade;
     private String overallComment;
     private int abilityToLearnGrade;
@@ -39,6 +43,7 @@ public class Review {
         private Integer id;
         private Student student;
         private Stream stream;
+        private ApplicationUser user;
         private int overallGrade;
         private String overallComment;
         private int abilityToLearnGrade;
@@ -62,6 +67,11 @@ public class Review {
 
         public Builder withStream(Stream stream) {
             this.stream = stream;
+            return this;
+        }
+
+        public Builder withUser(ApplicationUser user) {
+            this.user = user;
             return this;
         }
 
@@ -120,6 +130,7 @@ public class Review {
             review.id = this.id;
             review.student = this.student;
             review.stream = this.stream;
+            review.user = this.user;
             review.overallGrade = this.overallGrade;
             review.overallComment = this.overallComment;
             review.abilityToLearnGrade = this.abilityToLearnGrade;
