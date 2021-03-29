@@ -19,7 +19,7 @@ public class StreamController {
 
     private final StreamService streamService;
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'MANAGER')")
     @GetMapping
     public ResponseEntity<List<Stream>> getStreams() {
         return new ResponseEntity<>(streamService.getAllStreams(), HttpStatus.OK);
