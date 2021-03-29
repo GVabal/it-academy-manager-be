@@ -55,6 +55,7 @@ public class ReviewService {
     private List<ReviewResponse> mapToReviewResponse(List<Review> reviewList) {
         return reviewList.stream()
                 .map(review -> new ReviewResponse(review.getId(), review.getStudent().getId(),
+                        review.getStream().getId(),
                         review.getUser().getFullName(),
                         review.getOverallGrade(), review.getOverallComment(),
                         review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
@@ -67,6 +68,7 @@ public class ReviewService {
 
     private ReviewResponse mapToReviewResponse(Review review) {
         return new ReviewResponse(review.getId(), review.getStudent().getId(),
+                review.getStream().getId(),
                 review.getUser().getFullName(),
                 review.getOverallGrade(), review.getOverallComment(),
                 review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
