@@ -2,6 +2,7 @@ package lt.akademija.itacademymanager.service;
 
 import lombok.AllArgsConstructor;
 import lt.akademija.itacademymanager.exception.StudentNotFoundException;
+import lt.akademija.itacademymanager.model.ApplicationUser;
 import lt.akademija.itacademymanager.model.Review;
 import lt.akademija.itacademymanager.model.Stream;
 import lt.akademija.itacademymanager.model.Student;
@@ -21,12 +22,13 @@ public class ReviewService {
     private final StreamService streamService;
     private final ReviewRepository reviewRepository;
 
-    public ReviewResponse addReview(ReviewNewRequest request) {
+    public ReviewResponse addReview(ReviewNewRequest request, ApplicationUser user) {
         Student student = studentService.getStudentById(request.getStudentId());
         Stream stream = streamService.getStreamById(request.getStreamId());
         Review review = new Review.Builder()
                 .withStudent(student)
                 .withStream(stream)
+                .withUser(user)
                 .withAbilityToLearnComment(request.getAbilityToLearnComment())
                 .withAbilityToLearnGrade(request.getAbilityToLearnGrade())
                 .withOverallComment(request.getOverallComment())
@@ -53,6 +55,8 @@ public class ReviewService {
     private List<ReviewResponse> mapToReviewResponse(List<Review> reviewList) {
         return reviewList.stream()
                 .map(review -> new ReviewResponse(review.getId(), review.getStudent().getId(),
+                        review.getStream().getId(),
+                        review.getUser().getFullName(),
                         review.getOverallGrade(), review.getOverallComment(),
                         review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
                         review.getMotivationGrade(), review.getMotivationComment(),
@@ -64,6 +68,8 @@ public class ReviewService {
 
     private ReviewResponse mapToReviewResponse(Review review) {
         return new ReviewResponse(review.getId(), review.getStudent().getId(),
+                review.getStream().getId(),
+                review.getUser().getFullName(),
                 review.getOverallGrade(), review.getOverallComment(),
                 review.getAbilityToLearnGrade(), review.getAbilityToLearnComment(),
                 review.getMotivationGrade(), review.getMotivationComment(),

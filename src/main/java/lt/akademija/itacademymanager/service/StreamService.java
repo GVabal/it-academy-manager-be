@@ -35,7 +35,8 @@ public class StreamService {
     }
 
     public Stream getStreamById(int id) {
-        return streamRepository.findById(id).orElseThrow(() -> new StreamNotFoundException(id));
+        return streamRepository.findById(id)
+                .orElseThrow(() -> new StreamNotFoundException(id));
     }
 
 }

@@ -8,6 +8,7 @@ import lt.akademija.itacademymanager.service.ReviewService;
 import lt.akademija.itacademymanager.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ public class StudentController {
     private final StudentService studentService;
     private final ReviewService reviewService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public Student addStudent(@RequestPart @Valid StudentNewRequest request,
@@ -31,6 +33,7 @@ public class StudentController {
         return studentService.addStudentWithPicture(request, picture);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Student updateStudent(@RequestPart @Valid StudentNewRequest request, @PathVariable("id") Integer id,
                                  @RequestPart(required = false) MultipartFile picture) {
@@ -40,24 +43,28 @@ public class StudentController {
         return studentService.updateStudentWithPicture(request, id, picture);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'MANAGER')")
     @GetMapping
     @ResponseBody
     public List<Student> getStudentList() {
         return studentService.getAllStudents();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'MANAGER')")
     @GetMapping(path = "/{id}")
     @ResponseBody
     public Student getStudentById(@PathVariable("id") int id) {
         return studentService.getStudentById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudentById(id);
     }
 
+    @PreAuthorize("hasAnyRole('MANAGER')")
     @GetMapping("{id}/reviews")
     public List<ReviewResponse> getReviewsForStudent(@PathVariable int id) {
         return reviewService.getAllReviewsForStudent(id);
